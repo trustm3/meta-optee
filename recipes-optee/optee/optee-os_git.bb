@@ -4,14 +4,13 @@ DESCRIPTION = "OPTEE OS"
 LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://${S}/LICENSE;md5=c1f21c4f72f372ef38a5a4aee55ec173"
 
-#PV="3.3.0+git${SRCPV}"
 PV="3.6.0+git${SRCPV}"
 
 DEPENDS = "python3-pycrypto-native python3-pyelftools-native"
 
 inherit deploy python3native
 
-SRCREV = "master"
+SRCREV = "3.6.0"
 SRC_URI = "git://github.com/OP-TEE/optee_os.git \
            file://0001-allow-setting-sysroot-for-libgcc-lookup.patch \
           "
@@ -21,15 +20,32 @@ S = "${WORKDIR}/git"
 OPTEEMACHINE ?= "${MACHINE}"
 OPTEEOUTPUTMACHINE ?= "${MACHINE}"
 
-EXTRA_OEMAKE = "PLATFORM=${OPTEEMACHINE} \
-		CFG_ARM64_core=y \
-		CFG_ARM32_core=n \
-                CROSS_COMPILE_core=${HOST_PREFIX} \
-                CROSS_COMPILE_ta_arm64=${HOST_PREFIX} \
-                ta-targets=ta_arm64 \
-                LDFLAGS= \
-                LIBGCC_LOCATE_CFLAGS=--sysroot=${STAGING_DIR_HOST} \
-        "
+export CROSS_COMPILE="${TARGET_PREFIX}"
+
+CFLAGS[unexport] = "1"
+LDFLAGS[unexport] = "1"
+AS[unexport] = "1"
+LD[unexport] = "1"
+
+DEBUG ??= "1"
+TEE_LOG_LEVEL = "${@bb.utils.contains('DEBUG', '1', '4', '2', d)}"
+TEE_CORE_DEBUG = "${@bb.utils.contains('DEBUG', '1', 'y', 'n', d)}"
+
+EXTRA_OEMAKE = "\
+	LIBGCC_LOCATE_CFLAGS=--sysroot=${STAGING_DIR_HOST} \
+	CROSS_COMPILE=${CROSS_COMPILE} \
+	CROSS_COMPILE_core=${CROSS_COMPILE} \
+	CROSS_COMPILE_ta_arm64=${CROSS_COMPILE} \
+	PLATFORM=${OPTEEMACHINE} \
+	CFG_ARM64_core=y \
+	CFG_ARM32_core=n \
+	ta-targets=ta_arm64 \
+	CFG_USER_TA_TARGETS=ta_arm64 \
+	CFG_TEE_CORE_LOG_LEVEL=${TEE_LOG_LEVEL} \
+	CFG_TEE_CORE_DEBUG=${TEE_CORE_DEBUG} \
+	CFG_DT=n \
+	DEBUG=${DEBUG} \
+"
 
 OPTEE_ARCH_armv7a = "arm32"
 OPTEE_ARCH_aarch64 = "arm64"

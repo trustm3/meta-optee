@@ -1,0 +1,25 @@
+From c70f62efb0d50e53a8235a460158e8d6e47be577 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Michael=20Wei=C3=9F?= <michael.weiss@aisec.fraunhofer.de>
+Date: Mon, 12 Aug 2019 13:55:04 +0200
+Subject: [PATCH] zynqmp: place atf in ocm memory even if bl32 is used
+
+---
+ plat/xilinx/zynqmp/include/platform_def.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/plat/xilinx/zynqmp/include/platform_def.h b/plat/xilinx/zynqmp/include/platform_def.h
+index 8e968af7..bad40d4e 100644
+--- a/plat/xilinx/zynqmp/include/platform_def.h
++++ b/plat/xilinx/zynqmp/include/platform_def.h
+@@ -35,7 +35,7 @@
+  * little space for growth.
+  */
+ #ifndef ZYNQMP_ATF_MEM_BASE
+-#if !DEBUG && defined(SPD_none)
++#if !DEBUG
+ # define BL31_BASE			0xfffea000
+ # define BL31_LIMIT			0xffffffff
+ #else
+-- 
+2.11.0
+
