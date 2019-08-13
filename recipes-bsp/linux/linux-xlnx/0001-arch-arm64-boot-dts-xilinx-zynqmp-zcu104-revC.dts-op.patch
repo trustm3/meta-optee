@@ -1,0 +1,46 @@
+From 0ac880b82ea4e7087b994b162cee06e53d734115 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Michael=20Wei=C3=9F?= <michael.weiss@aisec.fraunhofer.de>
+Date: Mon, 12 Aug 2019 13:09:21 +0200
+Subject: [PATCH] arch/arm64/boot/dts/xilinx/zynqmp-zcu104-revC.dts: optee
+ support
+
+---
+ arch/arm64/boot/dts/xilinx/optee.dtsi             | 15 +++++++++++++++
+ arch/arm64/boot/dts/xilinx/zynqmp-zcu104-revC.dts |  2 ++
+ 2 files changed, 17 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/xilinx/optee.dtsi
+
+diff --git a/arch/arm64/boot/dts/xilinx/optee.dtsi b/arch/arm64/boot/dts/xilinx/optee.dtsi
+new file mode 100644
+index 000000000000..961371cb7f64
+--- /dev/null
++++ b/arch/arm64/boot/dts/xilinx/optee.dtsi
+@@ -0,0 +1,15 @@
++/ {
++	reserved-memory {
++		optee@60000000 {
++			reg = <0x60000000 0x20000000>;
++			no-map;
++		};
++	};
++
++	firmware {
++		optee {
++			compatible = "linaro,optee-tz";
++			method = "smc";
++		};
++	};
++};
+diff --git a/arch/arm64/boot/dts/xilinx/zynqmp-zcu104-revC.dts b/arch/arm64/boot/dts/xilinx/zynqmp-zcu104-revC.dts
+index 1ee284f1e22a..0d8d23ed8e6d 100644
+--- a/arch/arm64/boot/dts/xilinx/zynqmp-zcu104-revC.dts
++++ b/arch/arm64/boot/dts/xilinx/zynqmp-zcu104-revC.dts
+@@ -545,3 +545,5 @@
+ &xlnx_dpdma {
+ 	status = "okay";
+ };
++
++#include "optee.dtsi"
+-- 
+2.11.0
+

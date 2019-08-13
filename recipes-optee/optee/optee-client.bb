@@ -12,8 +12,7 @@ SRC_URI = "git://github.com/OP-TEE/optee_client.git \
            file://tee-supplicant.service"
 S = "${WORKDIR}/git"
 
-#SRCREV = "c48bc3be9f23529952c7dd80ddd775bf580315b8"
-SRCREV = "master"
+SRCREV = "3.6.0"
 
 SYSTEMD_SERVICE_${PN} = "tee-supplicant.service"
 
