@@ -13,6 +13,7 @@ inherit deploy python3native
 SRCREV = "3.6.0"
 SRC_URI = "git://github.com/OP-TEE/optee_os.git \
            file://0001-allow-setting-sysroot-for-libgcc-lookup.patch \
+           file://0002-set-optee-dram-shm-size.patch \
           "
 
 S = "${WORKDIR}/git"

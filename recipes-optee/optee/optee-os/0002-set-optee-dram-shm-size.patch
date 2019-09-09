@@ -1,0 +1,18 @@
+diff --git a/core/arch/arm/plat-zynqmp/platform_config.h b/core/arch/arm/plat-zynqmp/platform_config.h
+index 1aaeefbe..e13840c0 100644
+--- a/core/arch/arm/plat-zynqmp/platform_config.h
++++ b/core/arch/arm/plat-zynqmp/platform_config.h
+@@ -58,10 +58,10 @@
+ 
+ /* Location of trusted dram */
+ #define TZDRAM_BASE		0x60000000
+-#define TZDRAM_SIZE		0x10000000
++#define TZDRAM_SIZE		0x02000000
+ 
+-#define TEE_SHMEM_START		0x70000000
+-#define TEE_SHMEM_SIZE		0x10000000
++#define TEE_SHMEM_START		0x62000000
++#define TEE_SHMEM_SIZE		0x00400000
+ 
+ #define GICD_OFFSET		0
+ #define GICC_OFFSET		0x20000
